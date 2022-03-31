@@ -2,7 +2,7 @@ import React from 'react'
 
 const Endereco = () => {
   return (
-    <div>Endereco</div>
+    <div>Endereço</div>
   )
 }
 

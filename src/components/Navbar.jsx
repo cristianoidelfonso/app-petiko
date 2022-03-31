@@ -1,16 +1,23 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import logo from '../logo.svg';
+import logoPet from '../logo-petiko.png';
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg px-5">
-      <button className="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <Link className="navbar-brand" to="/">
+        <img src={logo} className="App-logo" alt="Logo React" />
+        <img src={logoPet} className="img-fluid w-50" alt="Logo Tetiko" />
+      </Link>
+        
+      <button className="navbar-toggler" style={{marginRight: "2.2rem"}} type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item ">
+    
+      <div className="collapse navbar-collapse border-danger justify-content-end px-5" id="navbar">
+        <ul className="navbar-nav">
+          <li className="nav-item">
             <Link className="nav-link text-primary" to='/login'>Login</Link>
           </li>
           <li className="nav-item">
@@ -24,7 +31,9 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-    </nav>
+    </nav>  
   );
 }
 export default Navbar;
+
+    
