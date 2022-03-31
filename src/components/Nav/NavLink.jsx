@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledLink = styled.div`
 li {
-  padding: 18px 10px;
+  padding: 1rem;
+  font-size: .9rem;
+  font-weight: 550;
 }
 `;
 
-const NavLink = ({ text, path, childToParent }) => {
-  
-  const [open, setOpen] = useState(false);
-  
-  const data = 'Dados a enviar para o elemento pai';
-  
+const NavLink = ({ path, text, handleNavToggle }) => {
+
   return (
     <StyledLink>
-      <li><Link to={path} open={open} onClick={() => { setOpen(!open), childToParent(open)}}>{ text }</Link></li>
+      <li><Link to={path} onClick={handleNavToggle}>{ text }</Link></li>
     </StyledLink>
   )
 }

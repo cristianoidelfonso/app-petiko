@@ -16,7 +16,7 @@ const Ul = styled.ul`
   @media (max-width: 768px) {
     flex-flow: column nowrap;
     align-items: center;
-    background-color: #0D2538;
+    background-color: rgba(0, 131, 163, .95);
     position: fixed;
     transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
     top: 10vh;
@@ -34,25 +34,21 @@ const Ul = styled.ul`
     }
   }
 `;
+// transform: ${ ({ open }) => open ? 'translateX(0)' : 'translateX(-100%)' };
 
-const RightNav = ({ open }) => {
-
-  const links = document.getElementsByTagName('li');
-  for (let i = 0; i < links.length; i++) {
-    links[i].onclick = function() {
-      const ul = document.getElementsByTagName('ul');
-      console.log(ul);
-      ul.style.backgroundColor = "#fa4";
-    }
-  }
+const RightNav = ({ open, handleNavToggle }) => {
 
   return (
     <>
     <Ul open={open}>
-      <li><Link to="/">Sobre</Link></li>
-      <li><Link to="/">Contato</Link></li>
-      <li><Link to="/login">Login</Link></li>
-      <li><Link to="/register">Register</Link></li>
+      <NavLink path="/" text='Home' handleNavToggle={handleNavToggle}/>
+      <NavLink path="/pedidos" text='Pedido' handleNavToggle={handleNavToggle}/>
+      <NavLink path="/contato" text='Contato' handleNavToggle={handleNavToggle}/>
+      <NavLink path="/login" text='Login' handleNavToggle={handleNavToggle}/>
+      <NavLink path="/register" text='Register' handleNavToggle={handleNavToggle}/>
+      
+      {/* <li><Link to="/login" onClick={handleNavToggle}>Login</Link></li> */}
+      {/* <li><Link to="/register" onClick={handleNavToggle}>Register</Link></li> */}
     </Ul>
     </>
   )

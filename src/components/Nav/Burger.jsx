@@ -35,18 +35,20 @@ const StyledBurger = styled.div`
   }
 `;
 
-const Burger = () => {
+const Burger = ({ open, handleNavToggle }) => {
 
-  const [open, setOpen] = useState(false);
-  
+  // const [open, setOpen] = useState(false);
+ 
   return (
     <>
-      <StyledBurger open={open} onClick={() => setOpen(!open)}>
+      {/* <StyledBurger open={open} onClick={() => setOpen(!open)} > */}
+      <StyledBurger open={open} onClick={handleNavToggle} >
         <div />
         <div />
         <div />
       </StyledBurger>
-      <RightNav open={open}/>
+      {/* <RightNav open={open}/> */}
+      <RightNav open={open} handleNavToggle={handleNavToggle}/>
     </>
   )
 }
