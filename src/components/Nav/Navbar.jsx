@@ -7,8 +7,7 @@ import logoPet from '../../logo-petiko.png';
 
 const Nav = styled.nav`
   width: 100%;
-  margin-top: -2vh;
-  height: 12vh;
+  height: 10vh;
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
@@ -20,15 +19,15 @@ const Nav = styled.nav`
   }
 `;
 
-const Navbar = ({ handleNavToggle }) => {
+const Navbar = () => {
 
   return (
-    <Nav>
+    <Nav> 
       <div className="logo">
-        <Link className="navbar-brand" to="/" onClick={handleNavToggle}>
+        <div className="navbar-brand">
           <img src={logo} className="App-logo" alt="Logo React" />
           <img src={logoPet} className="imgPet" alt="Logo Tetiko" />
-        </Link>
+        </div>
       </div>
       {/* <Burger /> */}
     </Nav>

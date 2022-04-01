@@ -10,6 +10,17 @@ import Endereco from './components/Endereco';
 import Contato from './components/Contato';
 import Burger from './components/Nav/Burger';
 import NotFoundPage from './components/NotFoundPage';
+import styled from 'styled-components';
+
+const Header = styled.div`
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  z-index: 18;
+  background-color: #FEE
+`;
 
 function App() {
 
@@ -24,10 +35,10 @@ function App() {
   return (
     <div className="App">
 
-      <div className="d-flex flex-row">
-        <Navbar handleNavToggle={handleNavToggle} />
+      <Header>
+        <Navbar />
         <Burger open={open} handleNavToggle={handleNavToggle} />
-      </div>
+      </Header>
 
       <Routes>
         <Route path="/" element={<Home />} />
