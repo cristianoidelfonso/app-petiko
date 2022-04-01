@@ -10,26 +10,29 @@ const Nav = styled.nav`
   height: 10vh;
   padding: 0 20px;
   display: flex;
-  justify-content: space-between;
+  align-items:center;
+  justify-content: space-start;
   .logo {
-    padding: 15px 0;
+    
   }
   .imgPet {
     width: 35%;
+  }
+  @media (max-width: 768px) {
+    .imgPet {
+      width: 35%;
+    }
   }
 `;
 
 const Navbar = () => {
 
   return (
-    <Nav> 
-      <div className="logo">
-        <div className="navbar-brand">
-          <img src={logo} className="App-logo" alt="Logo React" />
-          <img src={logoPet} className="imgPet" alt="Logo Tetiko" />
-        </div>
-      </div>
-      {/* <Burger /> */}
+    <Nav>
+      <div className="nav-brand ">
+        <img src={logo} className="App-logo" alt="Logo React" />
+        <img src={logoPet} className="imgPet" alt="Logo Tetiko" />
+      </div>   
     </Nav>
   )
 }
