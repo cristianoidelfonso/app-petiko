@@ -1,30 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Pedido = () => {
 
   const [ cep, setCep ] = useState('');
-  const [ endereco, setEndereco ] = useState({
-    logradouro: '',
-    localidade: '',
-  });
+  const [ pedidos, setPedidos ] = useState([]);
+
+  const [ endereco, setEndereco ] = useState({});
   const [ formValue, setFormValue ] = useState({
     nome: "",
     email: "",
     cpf: "",
+    numero: "",
   });
 
-  // const endereco = {
-    // cep: "",
-    // logradouro: "",
-    // complemento: "", 
-    // bairro: "",
-    // localidade: "",
-    // uf: "",
-    // ibge: "",
-    // gia: "",
-    // ddd: "",
-    // siafi: "",
-// };
+  useEffect( async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+    const response = await fetch(`http://127.0.0.1:8000/api/v1/pedidos`, requestOptions)
+    const data = await response.json();
+    setPedidos(data);
+  },[pedidos]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -36,7 +33,7 @@ const Pedido = () => {
     });
   };
 
-  const { nome, email, cpf } = formValue;
+  const { nome, email, cpf, numero } = formValue;
 
   const handleBlur = (event) => {
     event.preventDefault();
@@ -48,11 +45,10 @@ const Pedido = () => {
   }
 
   const buscarCep = (cep) => {
-    console.log(cep)
     if(cep.length < 8) {
       return;
     } else { 
-      const URL1 = `https://viacep.com.br/ws/${cep}/json/`;
+      // const URL1 = `https://viacep.com.br/ws/${cep}/json/`;
       const URL2 = `http://127.0.0.1:8000/api/v1/endereco/${cep}`;     
       
       cep && fetch(URL2, { 
@@ -65,7 +61,7 @@ const Pedido = () => {
             if (data.hasOwnProperty("erro")) {
               alert('Cep não existente');
             } else {
-              console.log('Cliente: ', data);
+              // console.log('Cliente: ', data);
               setEndereco(data);
             }
           })
@@ -75,41 +71,55 @@ const Pedido = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const URL2 = `http://127.0.0.1:8000/api/v1/pedidos`; 
-    fetch(URL2, { nome, email }, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.hasOwnProperty("erro")) {
-          alert('Cep não existente');
-        } else {
-          console.log('Pedido: ', data);
-        }
-      })
-      .catch((error) => console.log(error));
 
-    // alert(`Um nome foi enviado: 
-    //   Nome: ${nome}
-    //   Email: ${email}
-    //   CPF: ${cpf}
-    //   CEP: ${cep} 
-    //   Localidade: ${endereco.localidade}
-    // `);
+    const payload = {
+      nome: nome,
+      email: email,
+      cpf: cpf,
+      cep: cep,
+      rua: endereco.logradouro,
+      numero: numero,
+      bairro: endereco.bairro,
+      complemento: endereco.complemento,
+      cidade: endereco.localidade,
+      estado: endereco.uf,
+    }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( payload )
+    };
+
+    const response = await fetch(`http://127.0.0.1:8000/api/v1/pedidos`, requestOptions)
+    const data = await response.json();
+    console.log(data);
   }
 
   return (
     <>
+      {/* <div>
+        <table className="table">
+          <tbody>
+            { pedidos.map((pedido) => (
+                <tr key={pedido.id}>
+                  <td>{pedido.nome}</td>
+                  <td>{pedido.email}</td>
+                  <td>{pedido.cpf}</td>
+                </tr>
+            ))}
+          </tbody>
+        </table>
+      </div> */}
+
       <div className="h2 text-center">Fazer pedido</div>
-      <div className="container border border-danger p-4">
+      <div className="container border p-4">
 
         <form onSubmit={handleSubmit} className="row">
-          <div className="col-md-6">
+          <div className="col-md-6 col-lg-4">
             <label htmlFor="inputNome" className="form-label">NOME</label>
             <input 
-              type="nome" 
+              type="text" 
               className="form-control" 
               id="inputNome"
               name="nome" 
@@ -117,7 +127,7 @@ const Pedido = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 col-lg-4">
             <label htmlFor="inputEmail" className="form-label">EMAIL</label>
             <input 
               type="email" 
@@ -128,7 +138,7 @@ const Pedido = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-6 col-lg-4">
             <label htmlFor="inputCpf" className="form-label">CPF</label>
             <input 
               type="text" 
@@ -140,8 +150,9 @@ const Pedido = () => {
             />
           </div>
 
+          <hr className="w-100 mt-4"/>
 
-          <div className="col-md-4">
+          <div className="col-md-3 col-lg-2">
             <label htmlFor="inputCep" className="form-label">CEP</label>
             <input 
               type="text" 
@@ -157,7 +168,7 @@ const Pedido = () => {
           </div>
 
 
-          <div className="col-md-4">
+          <div className="col-md-7 col-lg-4">
             <label htmlFor="inputLogradouro" className="form-label">RUA</label>
             <input 
               type="text" 
@@ -168,25 +179,30 @@ const Pedido = () => {
             />
           </div>
 
-          <div className="col-md-3">
-            <label htmlFor="inputNumero" className="form-label">NÚMERO</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="inputNumero" 
+          <div className="col-4 col-md-2 col-lg-2">
+            <label htmlFor="inputNumero" className="form-label">NUM</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputNumero"
+              name="numero"
+              value={numero}
+              onChange={handleChange}
             />
           </div>
 
-          <div className="col-md-5">
-            <label htmlFor="inputNumero" className="form-label">COMPLEMENTO</label>
+          <div className="col-8 col-md-6 col-lg-4">
+            <label htmlFor="inputComplemento" className="form-label">COMPLEMENTO</label>
             <input 
               type="text" 
               className="form-control" 
-              id="inputNumero" 
+              id="inputComplemento" 
+              name="complemento"
+              defaultValue={endereco.complemento}
             />
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-6 col-lg-5">
             <label htmlFor="inputBairro" className="form-label">BAIRRO</label>
             <input 
               type="text" 
@@ -196,7 +212,7 @@ const Pedido = () => {
             />
           </div>
           
-          <div className="col-md-5">
+          <div className="col-9 col-md-6 col-lg-4">
             <label htmlFor="inputLocalidade" className="form-label">CIDADE</label>
             <input 
               type="text" 
@@ -206,8 +222,8 @@ const Pedido = () => {
             />
           </div>
 
-          <div className="col-md-2">
-            <label htmlFor="inputEstado" className="form-label">ESTADO</label>
+          <div className="col-3 col-md-6 col-lg-3">
+            <label htmlFor="inputEstado" className="form-label">UF</label>
             <input 
               type="text" 
               className="form-control" 
