@@ -49,48 +49,48 @@ const Home = () => {
   return (
     <>
     
-    <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div id="carouselDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
       <div className="carousel-indicators">
-        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselExampleDark" data-bs-slide-to="0" aria-label="Slide 1" className="active" aria-current="true" ></button>
-        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselExampleDark" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselDark" data-bs-slide-to="0" aria-label="Slide 1" className="active" aria-current="true" ></button>
+        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselDark" data-bs-slide-to="4" aria-label="Slide 5"></button>
       </div>
         <div className="carousel-inner">
-          <div className="carousel-item active" data-bs-interval="4000">
+          <div className="carousel-item active" data-bs-interval="2500">
             <img src={bannerV5} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko First Slide</h5>
-              <p>Some representative placeholder content for the first slide.</p>
+              <p>Petiko One.</p>
             </div>
         </div>
-          <div className="carousel-item" data-bs-interval="4000">
+          <div className="carousel-item" data-bs-interval="2500">
             <img src={bannerV1} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Second Slide</h5>
-              <p>Some representative placeholder content for the second slide.</p>
+              <p>Petiko Two.</p>
             </div>
         </div>
-        <div className="carousel-item" data-bs-interval="4000">
+        <div className="carousel-item" data-bs-interval="2500">
           <img src={bannerV2} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Third Slide</h5>
-              <p>Some representative placeholder content for the third slide.</p>
+              <p>Petiko Three.</p>
             </div>
         </div>
-          <div className="carousel-item" data-bs-interval="4000">
+          <div className="carousel-item" data-bs-interval="2500">
             <img src={bannerV3} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Fourth Slide</h5>
-              <p>Some representative placeholder content for the third slide.</p>
+              <p>Petiko Four.</p>
             </div>
         </div>
-          <div className="carousel-item" data-bs-interval="4000">
+          <div className="carousel-item" data-bs-interval="2500">
             <img src={bannerV4} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Fifth Slide</h5>
-              <p>Some representative placeholder content for the third slide.</p>
+              <p>Petiko Five.</p>
             </div>
         </div>
       </div>

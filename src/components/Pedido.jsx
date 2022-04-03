@@ -2,26 +2,25 @@ import React, { useEffect, useState } from 'react'
 
 const Pedido = () => {
 
-  const [ cep, setCep ] = useState('');
-  const [ pedidos, setPedidos ] = useState([]);
-
-  const [ endereco, setEndereco ] = useState({});
+  const [ endereco, setEndereco ] = useState({
+    cep: "",
+    logradouro: "",
+    complemento: "",
+    bairro: "",
+    localidade: "",
+    uf: "",
+    ibge: "",
+    gia: "",
+    ddd: "",
+    siafi: "",
+  });
+  
   const [ formValue, setFormValue ] = useState({
     nome: "",
     email: "",
     cpf: "",
     numero: "",
   });
-
-  useEffect( async () => {
-    const requestOptions = {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    };
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/pedidos`, requestOptions)
-    const data = await response.json();
-    setPedidos(data);
-  },[pedidos]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,43 +30,38 @@ const Pedido = () => {
         [name]: value,
       };
     });
+    setEndereco((formEndereco) => {
+      return {
+        ...formEndereco, 
+        [name]: value,
+      }
+    })
   };
 
   const { nome, email, cpf, numero } = formValue;
+  const { cep, logradouro, complemento, bairro, localidade, uf } = endereco;
 
-  const handleBlur = (event) => {
-    event.preventDefault();
-    if(event.target.value < 8){
+  useEffect(async () => {
+    if (cep.length < 8) {
       return;
+    }else{
+      cep && await fetch(`http://127.0.0.1:8000/api/v1/endereco/${cep}`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.hasOwnProperty("erro")) {
+            alert('Cep não existente');
+          } else {
+            setEndereco(data);
+          }
+        })
+      .catch((error) => console.log(error));
     }
-    setCep(event.target.value);
-    buscarCep(cep);
-  }
+  },[cep])
 
-  const buscarCep = (cep) => {
-    if(cep.length < 8) {
-      return;
-    } else { 
-      // const URL1 = `https://viacep.com.br/ws/${cep}/json/`;
-      const URL2 = `http://127.0.0.1:8000/api/v1/endereco/${cep}`;     
-      
-      cep && fetch(URL2, { 
-            method: 'POST', 
-            mode: 'cors', 
-            headers: { 'Content-Type': 'application/json'}
-          })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.hasOwnProperty("erro")) {
-              alert('Cep não existente');
-            } else {
-              // console.log('Cliente: ', data);
-              setEndereco(data);
-            }
-          })
-          .catch((error) => console.log(error));
-    }
-  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -77,17 +71,17 @@ const Pedido = () => {
       email: email,
       cpf: cpf,
       cep: cep,
-      rua: endereco.logradouro,
+      logradouro: logradouro,
       numero: numero,
-      bairro: endereco.bairro,
-      complemento: endereco.complemento,
-      cidade: endereco.localidade,
-      estado: endereco.uf,
+      bairro: bairro,
+      complemento: complemento,
+      localidade: localidade,
+      uf: uf,
     }
 
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Accept': 'application/json','Content-Type': 'application/json' },
       body: JSON.stringify( payload )
     };
 
@@ -98,20 +92,6 @@ const Pedido = () => {
 
   return (
     <>
-      {/* <div>
-        <table className="table">
-          <tbody>
-            { pedidos.map((pedido) => (
-                <tr key={pedido.id}>
-                  <td>{pedido.nome}</td>
-                  <td>{pedido.email}</td>
-                  <td>{pedido.cpf}</td>
-                </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
-
       <div className="h2 text-center">Fazer pedido</div>
       <div className="container border p-4">
 
@@ -161,9 +141,8 @@ const Pedido = () => {
               name="cep"  
               value={cep}
               maxLength={8}
-              onChange={(e)=>setCep(e.target.value)} 
-              onBlur={handleBlur} 
-              placeholder="Informe o seu CEP" 
+              onChange={handleChange}
+              placeholder="Informe o CEP" 
             />
           </div>
 
@@ -175,7 +154,8 @@ const Pedido = () => {
               className="form-control" 
               id="inputLogradouro" 
               name="logradouro"
-              defaultValue={endereco.logradouro} 
+              value={logradouro}
+              onChange={handleChange}
             />
           </div>
 
@@ -198,7 +178,8 @@ const Pedido = () => {
               className="form-control" 
               id="inputComplemento" 
               name="complemento"
-              defaultValue={endereco.complemento}
+              value={complemento}
+              onChange={handleChange}
             />
           </div>
 
@@ -208,7 +189,9 @@ const Pedido = () => {
               type="text" 
               className="form-control" 
               id="inputBairro" 
-              defaultValue={endereco.bairro}
+              name="bairro"
+              value={bairro}
+              onChange={handleChange}
             />
           </div>
           
@@ -218,17 +201,23 @@ const Pedido = () => {
               type="text" 
               className="form-control" 
               id="inputLocalidade" 
-              defaultValue={endereco.localidade}
+              name="localidade"
+              value={localidade}
+              onChange={handleChange}
+              readOnly
             />
           </div>
 
           <div className="col-3 col-md-6 col-lg-3">
-            <label htmlFor="inputEstado" className="form-label">UF</label>
+            <label htmlFor="inputUf" className="form-label">UF</label>
             <input 
               type="text" 
               className="form-control" 
               id="inputEstado" 
-              defaultValue={endereco.uf}
+              name="uf"
+              defaultValue={uf}
+              onChange={handleChange}
+              readOnly
             />
           </div>
 
