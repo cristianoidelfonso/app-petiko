@@ -5,6 +5,7 @@ const Pedido = () => {
 
   let navigate = useNavigate();
 
+  const [ produtos, setProdutos ] = useState([]);
   const [ errorsBack, setErrorsBack ] = useState({});
 
   const [ endereco, setEndereco ] = useState({
@@ -47,7 +48,7 @@ const Pedido = () => {
   const { cep, logradouro, complemento, bairro, localidade, uf } = endereco;
 
   useEffect(async () => {
-    
+
     if (cep.length < 8) {
       return;
     }else{
@@ -252,31 +253,9 @@ const Pedido = () => {
             />
           </div>
 
-          
-
-          <div className="col-md-6">
-            <label htmlFor="inputState" className="form-label">State</label>
-            <select id="inputState" className="form-select">
-              <option value="DEFAULT" disabled>Choose a salutation ...</option>
-              <option>...</option>
-            </select>
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="inputZip" className="form-label">Zip</label>
-            <input type="text" className="form-control" id="inputZip" />
-          </div>
-
-          <div className="col-12">
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" id="gridCheck" />
-              <label className="form-check-label" htmlFor="gridCheck">
-                  Check me out
-                </label>
-            </div>
-          </div>
-          <div className="col-12 d-flex justify-content-end">
+          <div className="col-12 d-flex justify-content-end mt-4">
             <a href="/" className="btn btn-secondary btn-sm px-2">Cancelar</a>
-            <button type="submit" className="btn btn-primary btn-sm">Finalizar pedido</button>
+            <button type="submit" className="btn btn-primary btn-sm" style={{marginLeft: '1rem'}}>Finalizar pedido</button>
           </div>
         </form>
 

@@ -11,6 +11,7 @@ import Contato from './components/Contato';
 import Burger from './components/Nav/Burger';
 import NotFoundPage from './components/NotFoundPage';
 import styled from 'styled-components';
+import Produtos from './components/Produtos';
 
 const Header = styled.div`
   position: -webkit-sticky; /* Safari */
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/produtos" element={<Produtos />} />
         <Route path="/pedidos" element={<Pedido />} />
         <Route path="/endereco" element={<Endereco />} />
         <Route path="/contato" element={<Contato />} />

@@ -42,6 +42,7 @@ const RightNav = ({ open, handleNavToggle }) => {
     <>
     <Ul open={open}>
       <NavLink path="/" text='Home' handleNavToggle={handleNavToggle}/>
+      <NavLink path="/produtos" text='Produtos' handleNavToggle={handleNavToggle}/>
       <NavLink path="/pedidos" text='Pedido' handleNavToggle={handleNavToggle}/>
       <NavLink path="/contato" text='Contato' handleNavToggle={handleNavToggle}/>
       <NavLink path="/login" text='Login' handleNavToggle={handleNavToggle}/>
