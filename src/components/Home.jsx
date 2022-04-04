@@ -46,6 +46,9 @@ const BtnNext = styled.button `
 `;
 
 const Home = () => {
+
+  const dataBsInterval = 3500;
+
   return (
     <>
     
@@ -58,35 +61,35 @@ const Home = () => {
         <button type="button" style={{borderRadius:"50%",width: "15px",height:"15px"}} data-bs-target="#carouselDark" data-bs-slide-to="4" aria-label="Slide 5"></button>
       </div>
         <div className="carousel-inner">
-          <div className="carousel-item active" data-bs-interval="2500">
+          <div className="carousel-item active" data-bs-interval={dataBsInterval}>
             <img src={bannerV5} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko First Slide</h5>
               <p>Petiko One.</p>
             </div>
         </div>
-          <div className="carousel-item" data-bs-interval="2500">
+          <div className="carousel-item" data-bs-interval={dataBsInterval}>
             <img src={bannerV1} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Second Slide</h5>
               <p>Petiko Two.</p>
             </div>
         </div>
-        <div className="carousel-item" data-bs-interval="2500">
+        <div className="carousel-item" data-bs-interval={dataBsInterval}>
           <img src={bannerV2} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Third Slide</h5>
               <p>Petiko Three.</p>
             </div>
         </div>
-          <div className="carousel-item" data-bs-interval="2500">
+          <div className="carousel-item" data-bs-interval={dataBsInterval}>
             <img src={bannerV3} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Fourth Slide</h5>
               <p>Petiko Four.</p>
             </div>
         </div>
-          <div className="carousel-item" data-bs-interval="2500">
+          <div className="carousel-item" data-bs-interval={dataBsInterval}>
             <img src={bannerV4} className="d-block w-100" alt="..."/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Petiko Fifth Slide</h5>
@@ -94,11 +97,11 @@ const Home = () => {
             </div>
         </div>
       </div>
-      <BtnPrev type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <BtnPrev type="button" data-bs-target="#carouselDark" data-bs-slide="prev">
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
       </BtnPrev>
-      <BtnNext type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <BtnNext type="button" data-bs-target="#carouselDark" data-bs-slide="next">
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Next</span>
       </BtnNext>

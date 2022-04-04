@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Pedido = () => {
+
+  let navigate = useNavigate();
+
+  const [ errorsBack, setErrorsBack ] = useState({});
 
   const [ endereco, setEndereco ] = useState({
     cep: "",
@@ -42,6 +47,7 @@ const Pedido = () => {
   const { cep, logradouro, complemento, bairro, localidade, uf } = endereco;
 
   useEffect(async () => {
+    
     if (cep.length < 8) {
       return;
     }else{
@@ -63,7 +69,7 @@ const Pedido = () => {
   },[cep])
 
 
-  const handleSubmit = async (event) => {
+  const makeOrder = async (event) => {
     event.preventDefault();
 
     const payload = {
@@ -85,17 +91,33 @@ const Pedido = () => {
       body: JSON.stringify( payload )
     };
 
-    const response = await fetch(`http://127.0.0.1:8000/api/v1/pedidos`, requestOptions)
-    const data = await response.json();
-    console.log(data);
+    // const response = await fetch(`http://127.0.0.1:8000/api/v1/pedidos`, requestOptions)
+    // const data = await response.json();
+    // console.log(data);
+    
+    await fetch(`http://127.0.0.1:8000/api/v1/pedidos`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if(data.errors){
+          setErrorsBack(data.errors);
+        }else{
+          console.log('Data', data);
+          navigate('/');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
     <>
+      
       <div className="h2 text-center">Fazer pedido</div>
       <div className="container border p-4">
 
-        <form onSubmit={handleSubmit} className="row">
+        <form onSubmit={ makeOrder } className="row">
+
           <div className="col-md-6 col-lg-4">
             <label htmlFor="inputNome" className="form-label">NOME</label>
             <input 
@@ -103,10 +125,12 @@ const Pedido = () => {
               className="form-control" 
               id="inputNome"
               name="nome" 
-              value={nome}
               onChange={handleChange}
+              value={nome}
             />
+            { errorsBack.nome && !nome.length && ( <small className="text-danger">{ errorsBack.nome }</small>) }
           </div>
+
           <div className="col-md-6 col-lg-4">
             <label htmlFor="inputEmail" className="form-label">EMAIL</label>
             <input 
@@ -114,10 +138,12 @@ const Pedido = () => {
               className="form-control" 
               id="inputEmail" 
               name="email"
-              value={email} 
               onChange={handleChange}
+              value={email} 
             />
+            { errorsBack.email && !email.length && ( <small className="text-danger">{ errorsBack.email }</small>) }
           </div>
+
           <div className="col-md-6 col-lg-4">
             <label htmlFor="inputCpf" className="form-label">CPF</label>
             <input 
@@ -125,9 +151,10 @@ const Pedido = () => {
               className="form-control" 
               id="inputCpf"
               name="cpf" 
-              value={cpf} 
               onChange={handleChange}
+              value={cpf} 
             />
+            { errorsBack.cpf && !cpf.length && ( <small className="text-danger">{ errorsBack.cpf }</small>) }
           </div>
 
           <hr className="w-100 mt-4"/>
@@ -139,11 +166,11 @@ const Pedido = () => {
               className="form-control" 
               id="inputCep"
               name="cep"  
-              value={cep}
               maxLength={8}
               onChange={handleChange}
-              placeholder="Informe o CEP" 
+              value={cep}
             />
+            { errorsBack.cep && !cep.length && ( <small className="text-danger">{ errorsBack.cep }</small>) }
           </div>
 
 
@@ -157,6 +184,7 @@ const Pedido = () => {
               value={logradouro}
               onChange={handleChange}
             />
+            { errorsBack.logradouro && !logradouro.length && ( <small className="text-danger">{ errorsBack.logradouro }</small>) }
           </div>
 
           <div className="col-4 col-md-2 col-lg-2">
@@ -166,9 +194,10 @@ const Pedido = () => {
               className="form-control"
               id="inputNumero"
               name="numero"
-              value={numero}
               onChange={handleChange}
+              value={numero}
             />
+            { errorsBack.numero && !numero.length && ( <small className="text-danger">{ errorsBack.numero }</small>) }
           </div>
 
           <div className="col-8 col-md-6 col-lg-4">
@@ -181,6 +210,7 @@ const Pedido = () => {
               value={complemento}
               onChange={handleChange}
             />
+            { errorsBack.complemento && ( <small className="text-danger">{ errorsBack.complemento }</small>) }
           </div>
 
           <div className="col-md-6 col-lg-5">
@@ -193,6 +223,7 @@ const Pedido = () => {
               value={bairro}
               onChange={handleChange}
             />
+            { errorsBack.bairro && !bairro.length &&  ( <small className="text-danger">{ errorsBack.bairro }</small>) }
           </div>
           
           <div className="col-9 col-md-6 col-lg-4">
